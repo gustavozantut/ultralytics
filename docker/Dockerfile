@@ -43,6 +43,7 @@ RUN sed -i '/^\[http "https:\/\/github\.com\/"\]/,+1d' .git/config
 ADD https://github.com/ultralytics/assets/releases/download/v8.3.0/yolo11n.pt .
 
 # Install pip packages
+RUN pip install fastapi uvicorn python-multipart
 RUN pip install uv
 RUN uv pip install --system -e ".[export]" albumentations pycocotools "onnxruntime-gpu" tensorrt wandb
 
@@ -88,3 +89,4 @@ RUN rm -rf tmp /root/.config/Ultralytics/persistent_cache.json
 
 # GCP VM from Image
 # docker.io/ultralytics/ultralytics:latest
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
