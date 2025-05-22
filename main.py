@@ -10,7 +10,7 @@ app = FastAPI()
 
 # Diretórios
 UPLOAD_DIR = "uploads"
-YOLO_WEIGHTS = "/brplates/runs/train8/weights/best.pt"
+YOLO_WEIGHTS = "/brplates/runs/train11/weights/best.pt"
 YOLO_IMAGE_SIZE = 640
 YOLO_OUTPUT_DIR = "/brplates/runs/"  # Pode ser volume compartilhado
 
@@ -52,7 +52,8 @@ async def detectar_placa_api(file: UploadFile = File(...)):
     crops = glob.glob(crop_glob)
     if not crops:
         return JSONResponse(
-            status_code=404, content={"erro": "Nenhuma placa detectada."}
+            status_code=404,
+            content={"erro": "Nenhuma placa detectada.", "file_id": file_id},
         )
 
     # 5. Extrai o nome da classe (última pasta antes da imagem)
