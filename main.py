@@ -10,9 +10,9 @@ app = FastAPI()
 
 # Diretórios
 UPLOAD_DIR = "uploads"
-YOLO_WEIGHTS = "/brplates/runs/train11/weights/best.pt"
+YOLO_WEIGHTS = os.getenv("YOLO_WEIGHTS", "/brplates/runs/train11/weights/best.pt")
 YOLO_IMAGE_SIZE = 640
-YOLO_OUTPUT_DIR = "/brplates/runs/"  # Pode ser volume compartilhado
+YOLO_OUTPUT_DIR = os.getenv("YOLO_OUTPUT_DIR", "/brplates/runs")
 
 # Garante que os diretórios existam
 os.makedirs(UPLOAD_DIR, exist_ok=True)
@@ -20,6 +20,7 @@ os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 @app.post("/detectar-placa")
 async def detectar_placa_api(file: UploadFile = File(...)):
+
     # 1. Salvar a imagem temporária com nome seguro
     file_id = str(uuid.uuid4())
     input_path = os.path.join(UPLOAD_DIR, f"{file_id}.jpg")
@@ -59,6 +60,12 @@ async def detectar_placa_api(file: UploadFile = File(...)):
     # 5. Extrai o nome da classe (última pasta antes da imagem)
     crop_path = crops[0]
     classe_detectada = pathlib.Path(crop_path).parent.name
+
+    # Remove o arquivo enviado após o processamento
+    try:
+        os.remove(input_path)
+    except Exception:
+        pass
 
     # 6. Retorna imagem da placa + nome da classe
     return {"arquivo": crop_path, "classe": classe_detectada}
