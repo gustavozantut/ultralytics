@@ -68,4 +68,4 @@ async def detectar_placa_api(file: UploadFile = File(...)):
         pass
 
     # 6. Retorna imagem da placa + nome da classe
-    return {"arquivo": crop_path, "classe": classe_detectada}
+    return {"arquivo": crop_path, "classe": classe_detectada, "file_id": file_id}
