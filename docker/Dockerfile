@@ -89,4 +89,4 @@ RUN rm -rf tmp /root/.config/Ultralytics/persistent_cache.json
 
 # GCP VM from Image
 # docker.io/ultralytics/ultralytics:latest
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8001"]
+CMD ["gunicorn", "main:app", "--workers", "4", "--worker-class", "uvicorn.workers.UvicornWorker", "--bind", "0.0.0.0:8001"]
