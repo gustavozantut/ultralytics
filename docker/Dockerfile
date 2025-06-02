@@ -43,7 +43,7 @@ RUN sed -i '/^\[http "https:\/\/github\.com\/"\]/,+1d' .git/config
 ADD https://github.com/ultralytics/assets/releases/download/v8.3.0/yolo11n.pt .
 
 # Install pip packages
-RUN pip install fastapi uvicorn python-multipart
+RUN pip install fastapi uvicorn python-multipart gunicorn
 RUN pip install uv
 RUN uv pip install --system -e ".[export]" albumentations pycocotools "onnxruntime-gpu" tensorrt wandb
 
