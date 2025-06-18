@@ -10,7 +10,7 @@ app = FastAPI()
 
 # Diretórios
 UPLOAD_DIR = "uploads"
-YOLO_WEIGHTS = os.getenv("YOLO_WEIGHTS", "/brplates/runs/train11/weights/best.pt")
+YOLO_WEIGHTS = os.getenv("YOLO_WEIGHTS", "/brplates/weights/best.pt")
 YOLO_IMAGE_SIZE = 640
 YOLO_OUTPUT_DIR = os.getenv("YOLO_OUTPUT_DIR", "/brplates/runs")
 
